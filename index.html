@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CDDS @ UIUC — Climate Dynamics &amp; Data Science</title>
+  <meta name="description" content="Climate Dynamics and Data Science research group led by Cristian Proistosescu at the University of Illinois Urbana-Champaign.">
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --fg: #111;
+      --bg: #fff;
+      --muted: #666;
+      --border: #ddd;
+      --accent: #000;
+      --hover-bg: #f5f5f5;
+      --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif: 'Georgia', 'Times New Roman', serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      --max-w: 820px;
+    }
+
+    html { font-size: 17px; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ───────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2.4rem 2rem 0;
+    }
+
+    header .inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .site-header-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .site-logo {
+      display: block;
+      height: 48px;
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    .site-header-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .site-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.1rem;
+      line-height: 1.2;
+    }
+
+    .site-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    /* ── Navigation ───────────────────────────────── */
+    nav {
+      display: flex;
+      gap: 0;
+    }
+
+    nav a {
+      padding: 0.55rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      cursor: pointer;
+    }
+
+    nav a:hover { color: var(--fg); }
+    nav a.active { color: var(--fg); border-bottom-color: var(--accent); }
+
+    /* ── Main ─────────────────────────────────────── */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Typography ───────────────────────────────── */
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    a { color: var(--fg); }
+
+    /* ── People ───────────────────────────────────── */
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .person-card {
+      text-align: center;
+    }
+
+    .person-photo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: var(--border);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      color: #aaa;
+      overflow: hidden;
+    }
+
+    .person-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .person-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .person-role {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .person-links {
+      margin-top: 0.35rem;
+      font-size: 0.78rem;
+    }
+
+    .person-links a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .person-links a:hover {
+      color: var(--fg);
+      border-bottom-color: var(--fg);
+    }
+
+    /* ── Section labels ───────────────────────────── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-label:first-child { margin-top: 0; }
+
+    /* ── Publications ─────────────────────────────── */
+    .pub-list { list-style: none; }
+
+    .pub-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .pub-title a {
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .pub-title a:hover { border-bottom-color: var(--fg); }
+
+    .pub-authors {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .pub-authors strong { color: var(--fg); font-weight: 600; }
+
+    .pub-venue {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    /* ── Research ──────────────────────────────────── */
+    .research-area {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .research-area:last-child { border-bottom: none; }
+
+    .research-area h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+
+    .research-area p {
+      font-size: 0.92rem;
+      color: #333;
+    }
+
+    .research-area .research-members {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .research-area .research-funding {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+
+    /* ── Notes / Blog ─────────────────────────────── */
+    .post-list { list-style: disc; padding-left: 1.5rem; }
+
+    .post-item {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .post-item:hover { background: var(--hover-bg); margin: 0 -0.5rem; padding-left: 0.5rem; padding-right: 0.5rem; }
+
+    .post-item-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .post-item-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .post-item-excerpt {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+
+    /* Single post view */
+    .post-back {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    .post-back:hover { color: var(--fg); }
+
+    .post-header { margin-bottom: 2rem; }
+
+    .post-header h2 { margin-bottom: 0.3rem; }
+
+    .post-date {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .post-body {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .post-body h1, .post-body h2, .post-body h3 {
+      font-family: var(--font-sans);
+      margin-top: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .post-body h1 { font-size: 1.3rem; }
+    .post-body h2 { font-size: 1.15rem; }
+    .post-body h3 { font-size: 1rem; }
+
+    .post-body code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: #f4f4f4;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+    }
+
+    .post-body pre {
+      background: #f4f4f4;
+      padding: 1rem 1.2rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 1.2rem 0;
+    }
+
+    .post-body pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .post-body blockquote {
+      border-left: 3px solid var(--border);
+      padding-left: 1rem;
+      color: var(--muted);
+      margin: 1.2rem 0;
+    }
+
+    .post-body ul, .post-body ol {
+      margin: 1rem 0 1rem 1.5rem;
+    }
+
+    .post-body img {
+      max-width: 100%;
+      height: auto;
+      margin: 1rem 0;
+    }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    footer a:hover { color: var(--fg); }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 600px) {
+      html { font-size: 16px; }
+      header { padding: 1.6rem 1.2rem 0; }
+      main { padding: 1.8rem 1.2rem 4rem; }
+      nav a { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+      .people-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────── -->
+  <header>
+    <div class="inner">
+      <div class="site-header-row">
+        <img src="CDDS_logo.jpeg" alt="CDDS @ UIUC" class="site-logo">
+        <div class="site-header-text">
+          <div class="site-title">CDDS @ UIUC</div>
+          <div class="site-subtitle">Climate Dynamics &amp; Data Science · University of Illinois Urbana-Champaign</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#home" class="nav-link active" data-tab="home">Climate Dynamics</a>
+        <a href="#people" class="nav-link" data-tab="people">People</a>
+        <a href="#research" class="nav-link" data-tab="research">Research</a>
+        <a href="#teaching" class="nav-link" data-tab="teaching">Teaching</a>
+        <a href="#publications" class="nav-link" data-tab="publications">Publications</a>
+        <a href="#notes" class="nav-link" data-tab="notes">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══ HOME ══════════════════════════════════ -->
+    <section id="home" class="tab-content active">
+      <img src="CDDS_logo.jpeg" alt="CDDS @ UIUC" style="height: 140px; width: auto; margin-bottom: 1.5rem; display: block;">
+      <h2>Climate Dynamics &amp; Data Science</h2>
+      <p>We are a research group in the <a href="https://climas.illinois.edu">Department of Climate, Meteorology, and Atmospheric Sciences</a> 
+        and the <a href="https://esec.illinois.edu/">Department of Earth Sciences and Environmental Change</a> at the University of Illinois Urbana-Champaign, led by <a href="#people">Cristi Proistosescu</a>.</p>
+
+      <p>Our group studies the dynamics of Earth's climate system and how it responds to natural and anthropogenic forcing. 
+        We combine physical theory, numerical model simulations, and observational data using modern data science methods to understand climate variability and 
+        change across timescales — from the deep paleoclimate record to future projections of warming and extreme events.</p>
+
+      
+
+      <h3>Contact</h3>
+      <p style="font-size: 0.92rem;">Cristian Proistosescu<br>
+      Department of Atmospheric Sciences &amp; Department of Geology<br>
+      University of Illinois Urbana-Champaign<br>
+      <a href="mailto:cristi@illinois.edu">cristi@illinois.edu</a></p>
+    </section>
+
+    <!-- ══ RESEARCH ══════════════════════════════ -->
+    <section id="research" class="tab-content">
+      <h2>Research</h2>
+      <p>Our group works on understanding how Earth's climate responds to forcing — and why that response is so hard to pin down. 
+        We combine theory, numerical model experiments, modern observations, and paleoclimate proxies to study radiative feedbacks, climate sensitivity,
+         and the role of sea-surface temperature patterns in shaping both. 
+         A recurring theme is the interplay between forced and unforced variability, 
+         and how confounding the two leads to biased estimates of future warming. </p>
+
+         <p>We draw on both classic statistical methods and modern machine learning and AI to bridge analytical models, numerical experiments, and observations. </p>
+         
+         <p>Current research spans coupled ocean-atmosphere dynamics, the physics of heat waves, paleoclimate variability, climate model evaluation, and the economics of climate risk. We are broadly interested in how uncertainty in the climate system propagates into uncertainty in impacts and policy.</p>
+    </section>
+
+    <!-- ══ PEOPLE ════════════════════════════════ -->
+    <section id="people" class="tab-content">
+      <h2>People</h2>
+
+      <div class="section-label">Principal Investigator</div>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/cristi.png" alt="Cristian Proistosescu"></div>
+          <div class="person-name">Cristian (Cristi) Proistosescu</div>
+          <div class="person-role">Assistant Professor</div>
+          <div class="person-links">cristi [at] illinois.edu</div>
+        </div>
+      </div>
+
+      <div class="section-label">Graduate Students</div>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/tyler.png" alt="Tyler Hanke"></div>
+          <div class="person-name">Tyler Hanke</div>
+          <div class="person-role">PhD Student, Atmospheric Sciences</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/pappu.png" alt="Pappu Paul"></div>
+          <div class="person-name">Pappu Paul</div>
+          <div class="person-role">PhD Student, Atmospheric Sciences</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/rachel.png" alt="Rachel Tam"></div>
+          <div class="person-name">Rachel Tam</div>
+          <div class="person-role">PhD Student, Atmospheric Sciences</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/keiko.png" alt="Keiko Kircher"></div>
+          <div class="person-name">Keiko Kircher</div>
+          <div class="person-role">PhD Student, Atmospheric Sciences</div>
+        </div>
+      </div>
+
+      <div class="section-label">Alumni</div>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/adam.png" alt="Adam Bauer"></div>
+          <div class="person-name">Adam Bauer</div>
+          <div class="person-role">PhD, Physics</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/maile.png" alt="Maile Sasaki"></div>
+          <div class="person-name">Maile Sasaki</div>
+          <div class="person-role">MS, Atmospheric Sciences</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/philip.jpeg" alt="Philip Chmielowiec"></div>
+          <div class="person-name">Philip Chmielowiec</div>
+          <div class="person-role">BS, Electrical and Computer Engineering</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/jay.png" alt="Jay Pillai"></div>
+          <div class="person-name">Jay Pillai</div>
+          <div class="person-role">BS, Physics</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/abby.png" alt="Abby McDonnell"></div>
+          <div class="person-name">Abby McDonnell</div>
+          <div class="person-role">BS, Atmospheric Sciences</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/anay.png" alt="Anay Patel"></div>
+          <div class="person-name">Anay Patel</div>
+          <div class="person-role">BS, Statistics</div>
+        </div>
+        <div class="person-card">
+          <div class="person-photo"><img src="images/team/joseph.png" alt="Joseph Abi Karam"></div>
+          <div class="person-name">Joseph Abi Karam</div>
+          <div class="person-role">BS, Civil and Environmental Engineering</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PUBLICATIONS ══════════════════════════ -->
+    <section id="publications" class="tab-content">
+      <h2>Publications</h2>
+
+      <ul class="pub-list">
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.5194/acp-26-4289-2026">Meteorological drivers of the low-cloud radiative feedback pattern effect and its uncertainty</a></div>
+          <div class="pub-authors">R. Tam, T. Myers, M. Zelinka, C. Proistosescu, Y. Lin, K. Marvel</div>
+          <div class="pub-venue"><em>Atmospheric Chemistry and Physics</em>, 26(6), 4289-4311, 2026</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1073/pnas.2511370123">Paleoclimate pattern effects help constrain climate sensitivity and 21st-century warming</a></div>
+          <div class="pub-authors">V. Cooper, K. Armour, G. Hakim, J. Tierney, N. Burls, C. Proistosescu, T. Andrews, W. Dong, M. Dvorak, R. Feng</div>
+          <div class="pub-venue"><em>Proceedings of the National Academy of Sciences</em>, 123(4), e2511370123, 2026</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-24-0564.1">An Analytical Model for the Influence of Soil Moisture on Temperature Extremes in the Midlatitudes</a></div>
+          <div class="pub-authors">A. Bauer, L. Vargas Zeppetello, C. Proistosescu</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 38(24), 7395-7413, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2024GL111626">Analytical model for the higher order moments of midlatitude atmospheric temperature distributions</a></div>
+          <div class="pub-authors">K. Kircher, C. Proistosescu, R. Sriver</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 52(3), e2024GL111626, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2025JH000774">Applying the ACE2 emulator to SST Green's functions for the E3SMv3 global atmosphere model</a></div>
+          <div class="pub-authors">E. Wu, F. Rebassoo, P. Paul, C. Proistosescu, J. Nugent, D. McCoy, P. Caldwell, C. Bretherton</div>
+          <div class="pub-venue"><em>Journal of Geophysical Research: Machine Learning and Computation</em>, 2(3), e2025JH000774, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-24-0530.1">Mid-pliocene climate forcing, sea surface temperature patterns, and implications for modern-day climate sensitivity</a></div>
+          <div class="pub-authors">M. Dvorak, K. Armour, R. Feng, V. Cooper, J. Zhu, N. Burls, C. Proistosescu</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 38(13), 3037-3053, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2024PA004991">Statistical fingerprints of forced and unforced variability reveal inconsistencies between marine proxies and climate models on multi‐decadal to millennial timescales</a></div>
+          <div class="pub-authors">R. Cleveland Stout, C. Proistosescu, G. Roe</div>
+          <div class="pub-venue"><em>Paleoceanography and Paleoclimatology</em>, 40(10), e2024PA004991, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-24-0014.1">The relative importance of forced and unforced temperature patterns in driving the time variation of low-cloud feedback</a></div>
+          <div class="pub-authors">Y. Lin, G. Cesana, C. Proistosescu, M. Zelinka, K. Armour</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 38(2), 513-529, 2025</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1007/s10584-024-03724-3">Carbon dioxide as a risky asset</a></div>
+          <div class="pub-authors">A. Bauer, C. Proistosescu, G. Wagner</div>
+          <div class="pub-venue"><em>Climatic Change</em>, 177(5), 72, 2024</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1126/sciadv.adk9461">Last Glacial Maximum pattern effects reduce climate sensitivity estimates</a></div>
+          <div class="pub-authors">V. Cooper, K. Armour, G. Hakim, J. Tierney, M. Osman, C. Proistosescu, Y. Dong, N. Burls, T. Andrews, D. Amrhein</div>
+          <div class="pub-venue"><em>Science Advances</em>, 10(16), eadk9461, 2024</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1073/pnas.2312093121">Sea-surface temperature pattern effects have slowed global warming and biased warming-based constraints on climate sensitivity</a></div>
+          <div class="pub-authors">K. Armour, C. Proistosescu, Y. Dong, L. Hahn, E. Blanchard-Wrigglesworth, A. Pauling, R. Jnglin Wills, T. Andrews, M. Stuecker, S. Po-Chedley</div>
+          <div class="pub-venue"><em>Proceedings of the National Academy of Sciences</em>, 121(12), e2312093121, 2024</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2023MS003700">The green's function model intercomparison project (GFMIP) protocol</a></div>
+          <div class="pub-authors">J. Bloch‐Johnson, M. Rugenstein, M. Alessi, C. Proistosescu, M. Zhao, B. Zhang, A. Williams, J. Gregory, J. Cole, Y. Dong</div>
+          <div class="pub-venue"><em>Journal of Advances in Modeling Earth Systems</em>, 16(2), e2023MS003700, 2024</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2024EF004844">To what extent does discounting ‘hot’climate models improve the predictive skill of climate model ensembles?</a></div>
+          <div class="pub-authors">A. McDonnell, A. Bauer, C. Proistosescu</div>
+          <div class="pub-venue"><em>Earth's Future</em>, 12(10), e2024EF004844, 2024</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-22-0528.1">Fingerprinting low-frequency Last Millennium temperature variability in forced and unforced climate models</a></div>
+          <div class="pub-authors">R. Cleveland Stout, C. Proistosescu, G. Roe</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 36(20), 7005-7023, 2023</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1038/s41558-022-01372-y">Estimating the timing of geophysical commitment to 1.5 and 2.0 C of global warming</a></div>
+          <div class="pub-authors">M. Dvorak, K. Armour, D. Frierson, C. Proistosescu, M. Baker, C. Smith</div>
+          <div class="pub-venue"><em>Nature Climate Change</em>, 12(6), 547-552, 2022</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1073/pnas.2204761119">Influence of late Pleistocene sea-level variations on midocean ridge spacing in faulting simulations and a global analysis of bathymetry</a></div>
+          <div class="pub-authors">P. Huybers, P. Liautaud, C. Proistosescu, B. Boulahanis, S. Carbotte, R. Katz, C. Langmuir</div>
+          <div class="pub-venue"><em>Proceedings of the National Academy of Sciences</em>, 119(28), e2204761119, 2022</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2022GL100011">Systematic climate model biases in the large‐scale patterns of recent sea‐surface temperature and sea‐level pressure change</a></div>
+          <div class="pub-authors">R. Wills, Y. Dong, C. Proistosescu, K. Armour, D. Battisti</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 49(17), e2022GL100011, 2022</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2021GL095778">Biased estimates of equilibrium climate sensitivity and transient climate response derived from historical CMIP6 simulations</a></div>
+          <div class="pub-authors">Y. Dong, K. Armour, C. Proistosescu, T. Andrews, D. Battisti, P. Forster, D. Paynter, C. Smith, H. Shiogama</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 48(24), e2021GL095778, 2021</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-21-0167.1">Origins of a relatively tight lower bound on anthropogenic aerosol radiative forcing from Bayesian analysis of historical observations</a></div>
+          <div class="pub-authors">A. Albright, C. Proistosescu, P. Huybers</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 34(21), 8777-8792, 2021</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-20-1013.1">Slow modes of global temperature variability and their impact on climate sensitivity estimates</a></div>
+          <div class="pub-authors">R. Wills, K. Armour, D. Battisti, C. Proistosescu, L. Parsons</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 34(21), 8717-8738, 2021</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2019RG000678">An assessment of Earth's climate sensitivity using multiple lines of evidence</a></div>
+          <div class="pub-authors">S. Sherwood, M. Webb, J. Annan, K. Armour, P. Forster, J. Hargreaves, G. Hegerl, S. Klein, K. Marvel, E. Rohling</div>
+          <div class="pub-venue"><em>Reviews of geophysics</em>, 58(4), e2019RG000678, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-19-1011.1">Intermodel spread in the pattern effect and its contribution to climate sensitivity in CMIP5 and CMIP6 models</a></div>
+          <div class="pub-authors">Y. Dong, K. Armour, M. Zelinka, C. Proistosescu, D. Battisti, C. Zhou, T. Andrews</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 33(18), 7755-7775, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2019GL086588">Magnitudes and spatial patterns of interdecadal temperature variability in CMIP6</a></div>
+          <div class="pub-authors">L. Parsons, M. Brennan, R. Wills, C. Proistosescu</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 47(7), e2019GL086588, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2019GL086705">New generation of climate models track recent unprecedented changes in Earth's radiation budget observed by CERES</a></div>
+          <div class="pub-authors">N. Loeb, H. Wang, R. Allan, T. Andrews, K. Armour, J. Cole, J. Dufresne, P. Forster, A. Gettelman, H. Guo</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 47(5), e2019GL086705, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1038/s41558-019-0667-6">Strong remote control of future equatorial warming by off-equatorial forcing</a></div>
+          <div class="pub-authors">M. Stuecker, A. Timmermann, F. Jin, C. Proistosescu, S. Kang, D. Kim, K. Yun, E. Chung, J. Chu, C. Bitz</div>
+          <div class="pub-venue"><em>Nature Climate Change</em>, 10(2), 124-129, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1016/j.oneear.2020.06.002">Uncertainties in climate and weather extremes increase the cost of carbon</a></div>
+          <div class="pub-authors">C. Proistosescu, G. Wagner</div>
+          <div class="pub-venue"><em>One Earth</em>, 2(6), 515-517, 2020</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1175/JCLI-D-18-0843.1">Attributing historical and future evolution of radiative feedbacks to regional warming patterns using a Green’s function approach: The preeminence of the western Pacific</a></div>
+          <div class="pub-authors">Y. Dong, C. Proistosescu, K. Armour, D. Battisti</div>
+          <div class="pub-venue"><em>Journal of Climate</em>, 32(17), 5471-5491, 2019</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2018GL081080">Natural variability has slowed the decline in western US snowpack since the 1980s</a></div>
+          <div class="pub-authors">N. Siler, C. Proistosescu, S. Po‐Chedley</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 46(1), 346-355, 2019</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2018GL080716">Ocean circulation signatures of North Pacific decadal variability</a></div>
+          <div class="pub-authors">R. Wills, D. Battisti, C. Proistosescu, L. Thompson, D. Hartmann, K. Armour</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 46(3), 1690-1701, 2019</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1038/s41586-018-0640-y">Climate constraint reflects forced signal</a></div>
+          <div class="pub-authors">S. Po-Chedley, C. Proistosescu, K. Armour, B. Santer</div>
+          <div class="pub-venue"><em>Nature</em>, 563(7729), E6-E9, 2018</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1038/s41558-018-0339-y">Polar amplification dominated by local forcing and feedbacks</a></div>
+          <div class="pub-authors">M. Stuecker, C. Bitz, K. Armour, C. Proistosescu, S. Kang, S. Xie, D. Kim, S. McGregor, W. Zhang, S. Zhao</div>
+          <div class="pub-venue"><em>Nature Climate Change</em>, 8(12), 1076-1081, 2018</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1029/2018GL077678">Radiative feedbacks from stochastic variability in surface temperature and radiative imbalance</a></div>
+          <div class="pub-authors">C. Proistosescu, A. Donohoe, K. Armour, G. Roe, M. Stuecker, C. Bitz</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 45(10), 5082-5094, 2018</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1126/sciadv.1602821">Slow climate mode reconciles historical and model-based estimates of climate sensitivity</a></div>
+          <div class="pub-authors">C. Proistosescu, P. Huybers</div>
+          <div class="pub-venue"><em>Science Advances</em>, 3(7), e1602821, 2017</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1126/science.aae0451">Comment on "Sensitivity of seafloor bathymetry to climate-driven fluctuations in mid-ocean ridge magma supply"</a></div>
+          <div class="pub-authors">P. Huybers, C. Langmuir, R. Katz, D. Ferguson, C. Proistosescu, S. Carbotte</div>
+          <div class="pub-venue"><em>Science</em>, 352(6292), 1405, 2016</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1002/2016GL068880">Identification and interpretation of nonnormality in atmospheric time series</a></div>
+          <div class="pub-authors">C. Proistosescu, A. Rhines, P. Huybers</div>
+          <div class="pub-venue"><em>Geophysical Research Letters</em>, 43(10), 5425-5434, 2016</div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title"><a href="https://doi.org/10.1016/j.epsl.2012.01.022">To tune or not to tune: Detecting orbital variability in Oligo-Miocene climate records</a></div>
+          <div class="pub-authors">C. Proistosescu, P. Huybers, A. Maloof</div>
+          <div class="pub-venue"><em>Earth and Planetary Science Letters</em>, 325, 100-107, 2012</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ══ TEACHING ══════════════════════════════ -->
+    <section id="teaching" class="tab-content">
+      <h2>Teaching</h2>
+
+      <div class="research-area">
+        <h3> Applied AI for Earth Sciences </h3>
+        <p>A graduate-level course on modern AI/ML methods in earth sciences. It cover fundamental ML concepts and architectures
+           (e.g. regularization, convolutional neural nets, transformers), Python infrastructure (e.g. PyTorch) 
+           and modern applications to topics such as remote sensing, climate modeling and weather forecasting,
+            and environmental hazard modeling. </p>
+            <p> The course is taught in a modern AI-assisted programming and analysis framework, 
+              teaching students how to effectively integrate generative AI tools  
+      (e.g., Large Language Models like CoPilot, and Claude) domain knowledge and conceptual understanding.</p>
+        <!--<p style="font-size: 0.85rem;"><a href="syllabi/Syllabus_SIMLES_F21.pdf">Syllabus (Fall 2021)</a></p> -->
+      </div>
+
+      <div class="research-area">
+        <h3>Climate Dynamics</h3>
+        <p>A graduate-level class on climate dynamics. Investigates dynamical and physical processes that govern Earth’s past, present, and future climates. Emphasizes fundamental physical principles that determine present climate, and both natural and anthropogenic climate changes across spatial and temporal scales. Observations and climate models are used to examine past changes and potential future impacts.</p>
+        <!--<p style="font-size: 0.85rem;"><a href="syllabi/ATMS_507_Syllabus_S22.pdf">Syllabus (Spring 2022)</a></p> -->
+      </div>
+
+      <div class="research-area">
+        <h3>Climate and Global Change</h3>
+        <p>An introductory undergraduate course on climate change. Introduces climate change focusing, in turn, on mechanisms, impacts, and solutions
+          The goal of the course is to provide you with a good understanding of Earth’s Changing Climate.
+        By the end of the course, you will understand three major aspects:</p>
+        <p>(1) what physical and socio-economic factors drive climate change</p>
+        <p>(2) how climate change impacts natural, social, and economic systems</p>
+        <p>(3) what we can do about it!</p>
+        <!--<p style="font-size: 0.85rem;"><a href="syllabi/ATMS140_F22_Syllabus.pdf">Syllabus (Fall 2022)</a></p> -->
+      </div>
+
+      
+
+    </section>
+
+    <!-- ══ NOTES ═════════════════════════════════ -->
+    <section id="notes" class="tab-content">
+      <div id="notes-list-view">
+        <h2>Notes</h2>
+        <p style="margin-bottom:1.5rem; color:var(--muted);">A collection of personal notes and thoughts on climate dynamics and data science.</p>
+        <ul class="post-list">
+          <li><a href="https://cdds-uiuc.github.io/note-book/content/Hasselmann/Hasselmann.html">The Hasselmann model: a practitioners guide</a></li>
+        </ul>
+      </div>
+      <div id="notes-post-view" style="display:none;">
+        <a class="post-back" id="post-back">&larr; Back to all notes</a>
+        <div class="post-header">
+          <h2 id="post-title"></h2>
+          <div class="post-date" id="post-date"></div>
+        </div>
+        <div class="post-body" id="post-body"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    CDDS @ UIUC · Department of Atmospheric Sciences &amp; Department of Geology · <a href="mailto:cristi@illinois.edu">cristi@illinois.edu</a>
+  </footer>
+
+  <!-- Marked.js for Markdown rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+
+  <script>
+    /* ── Tab Navigation ───────────────────────────── */
+    const navLinks = document.querySelectorAll('.nav-link');
+    const tabs = document.querySelectorAll('.tab-content');
+
+    function switchTab(tabId) {
+      navLinks.forEach(l => l.classList.toggle('active', l.dataset.tab === tabId));
+      tabs.forEach(t => t.classList.toggle('active', t.id === tabId));
+      if (tabId === 'notes') showPostList();
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const tabId = link.dataset.tab;
+        switchTab(tabId);
+        history.replaceState(null, '', '#' + tabId);
+      });
+    });
+
+    const initialTab = location.hash.replace('#', '') || 'home';
+    switchTab(initialTab);
+
+    /* ── Blog / Notes System ──────────────────────── */
+    /*
+     * POSTS REGISTRY
+     * To add a new post:
+     *   1. Create a .md file in the posts/ folder
+     *   2. Add an entry here with: slug, title, date, excerpt
+     *   3. The slug must match the filename (without .md)
+     */
+    const POSTS = [];
+
+    const postList = document.getElementById('post-list');
+    const listView = document.getElementById('notes-list-view');
+    const postView = document.getElementById('notes-post-view');
+    const postTitle = document.getElementById('post-title');
+    const postDate = document.getElementById('post-date');
+    const postBody = document.getElementById('post-body');
+    const postBack = document.getElementById('post-back');
+
+    function renderPostList() {
+      postList.innerHTML = POSTS.map(p => `
+        <li class="post-item" data-slug="${p.slug}">
+          <div class="post-item-title">${p.title}</div>
+          <div class="post-item-meta">${formatDate(p.date)}</div>
+          <div class="post-item-excerpt">${p.excerpt}</div>
+        </li>
+      `).join('');
+      postList.querySelectorAll('.post-item').forEach(el => {
+        el.addEventListener('click', () => loadPost(el.dataset.slug));
+      });
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function showPostList() {
+      listView.style.display = '';
+      postView.style.display = 'none';
+    }
+
+    async function loadPost(slug) {
+      const meta = POSTS.find(p => p.slug === slug);
+      if (!meta) return;
+      try {
+        const res = await fetch('posts/' + slug + '.md');
+        if (!res.ok) throw new Error('Not found');
+        const md = await res.text();
+        postTitle.textContent = meta.title;
+        postDate.textContent = formatDate(meta.date);
+        postBody.innerHTML = marked.parse(md);
+        listView.style.display = 'none';
+        postView.style.display = '';
+      } catch (err) {
+        postBody.innerHTML = '<p style="color:var(--muted);">Could not load this post.</p>';
+        listView.style.display = 'none';
+        postView.style.display = '';
+      }
+    }
+
+    postBack.addEventListener('click', showPostList);
+    renderPostList();
+  </script>
+
+</body>
+</html>
