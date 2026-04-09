@@ -945,69 +945,6 @@
     const initialTab = location.hash.replace('#', '') || 'home';
     switchTab(initialTab);
 
-    /* ── Blog / Notes System ──────────────────────── */
-    /*
-     * POSTS REGISTRY
-     * To add a new post:
-     *   1. Create a .md file in the posts/ folder
-     *   2. Add an entry here with: slug, title, date, excerpt
-     *   3. The slug must match the filename (without .md)
-     */
-    const POSTS = [];
-
-    const postList = document.getElementById('post-list');
-    const listView = document.getElementById('notes-list-view');
-    const postView = document.getElementById('notes-post-view');
-    const postTitle = document.getElementById('post-title');
-    const postDate = document.getElementById('post-date');
-    const postBody = document.getElementById('post-body');
-    const postBack = document.getElementById('post-back');
-
-    function renderPostList() {
-      postList.innerHTML = POSTS.map(p => `
-        <li class="post-item" data-slug="${p.slug}">
-          <div class="post-item-title">${p.title}</div>
-          <div class="post-item-meta">${formatDate(p.date)}</div>
-          <div class="post-item-excerpt">${p.excerpt}</div>
-        </li>
-      `).join('');
-      postList.querySelectorAll('.post-item').forEach(el => {
-        el.addEventListener('click', () => loadPost(el.dataset.slug));
-      });
-    }
-
-    function formatDate(dateStr) {
-      const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    }
-
-    function showPostList() {
-      listView.style.display = '';
-      postView.style.display = 'none';
-    }
-
-    async function loadPost(slug) {
-      const meta = POSTS.find(p => p.slug === slug);
-      if (!meta) return;
-      try {
-        const res = await fetch('posts/' + slug + '.md');
-        if (!res.ok) throw new Error('Not found');
-        const md = await res.text();
-        postTitle.textContent = meta.title;
-        postDate.textContent = formatDate(meta.date);
-        postBody.innerHTML = marked.parse(md);
-        listView.style.display = 'none';
-        postView.style.display = '';
-      } catch (err) {
-        postBody.innerHTML = '<p style="color:var(--muted);">Could not load this post.</p>';
-        listView.style.display = 'none';
-        postView.style.display = '';
-      }
-    }
-
-    postBack.addEventListener('click', showPostList);
-    renderPostList();
-
     /* ── Open external links and PDFs in new tab ──── */
     document.querySelectorAll('a[href]').forEach(a => {
       const href = a.getAttribute('href');
