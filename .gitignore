@@ -11,3 +11,10 @@ images/team/becca.png
 images/team/maddie.png
 CDDS_logo.svg
 papers/Dvorak et al. - Mid-Pliocene Climate Forcing, Sea Surface Temperature Patterns, and Implications for Modern-Day Clim.pdf
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
